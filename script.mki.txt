@@ -1,3 +1,8 @@
+
+:local date [/system clock get date]
+
+
+
 # Math Calculation here
 :local result ""
 :local months [:toarray "jan,feb,mar,apr,may,jun,jul,aug,sep,oct,nov,dec"]
@@ -30,4 +35,14 @@
 :global mySat "sat";
 
 
-:if ( $result != $myFri &&  $result != $mySat ) do={ :put $result}
+:local weekend [:toarray value="apr/25/2019,may/01/2019,may/09/2019, jun/16/2019 , jun/28/2019,aug/24/2019,oct/14/2019, dec/25/2019"];
+
+global b 0;
+
+foreach i in= $weekend  do={if ($i!=$date)  do={ :set b ($b + 0);}  else={ :set b ($b + 1);}}
+
+:if ( $result != $myFri &&  $result != $mySat && $b != 1 ) do={
+
+:interface ethernet disable ether9
+
+}
