@@ -1,5 +1,7 @@
 
 :local date [/system clock get date]
+:local time [/system clock get time]
+
 
 
 
@@ -33,16 +35,12 @@
 # END Math Calculation
 :global myFri "fri";
 :global mySat "sat";
+:global mySun "sun";
 
 
-:local weekend [:toarray value="apr/25/2019,may/01/2019,may/09/2019, jun/16/2019 , jun/28/2019,aug/24/2019,oct/14/2019, dec/25/2019"];
-
+:local weekend [:toarray value="apr/28/2019,apr/29/2019,apr/30/2019,may/01/2019,may/09/2019,jun/16/2019,jun/17/2019,aug/25/2019,aug/26/2019,oct/13/2019,oct/14/2019,dec/25/2019,dec/29/2019,dec/30/2019,dec/31/2019,jan/01/2020"];
 global b 0;
+foreach i in= $weekend  do={if ($i !=$date)  do={ :set b ($b + 0);}  else={ :set b ($b + 1);}}
+:if ( $result = $mySun or $result = $mySat || $b = 1 ) do={:interface vlan enable  vlan1} else={ :interface vlan disable vlan1}
 
-foreach i in= $weekend  do={if ($i!=$date)  do={ :set b ($b + 0);}  else={ :set b ($b + 1);}}
 
-:if ( $result != $myFri &&  $result != $mySat && $b != 1 ) do={
-
-:interface ethernet disable ether9
-
-}
